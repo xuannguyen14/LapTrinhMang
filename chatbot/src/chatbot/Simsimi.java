@@ -35,7 +35,8 @@ public class Simsimi {
             // api https://api.simsimi.net/v2/?text=hi&lc=vn&cf=true
             // lc là ngôn ngữ
             // cf là chatfuel
-
+            
+            // lấy json về
             URL url = new URL("https://api.simsimi.net/v2/?text="+input+"&lc=vn&cf=true");
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -58,6 +59,8 @@ public class Simsimi {
                 }
                 in.close();
 
+                // response là chuỗi json
+                // bóc tách chuỗi json
                 JSONObject obj = new JSONObject(response.toString());
                 // messages là 1 mảng
                 
