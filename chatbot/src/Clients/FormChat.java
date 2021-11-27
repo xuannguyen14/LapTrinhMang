@@ -14,13 +14,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FormChat extends javax.swing.JFrame {
 
     private static Socket socket = null;
     private static BufferedReader in = null;
     private static BufferedWriter out = null;
-    private static BufferedReader stdIn = null;
+//    private static BufferedReader stdIn = null;
     public static String line;
     public static String input;
 
@@ -29,13 +31,14 @@ public class FormChat extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
 
     }
+//
 
     public void connectToServer(String input) {
         try {
             socket = new Socket("localhost", 5100);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            stdIn = new BufferedReader(new InputStreamReader(System.in));
+//            stdIn = new BufferedReader(new InputStreamReader(System.in));
             while (true) {
                 // Client nhận dữ liệu từ keyboard và gửi vào stream -> server
                 //System.out.print("Client input tax code: ");
@@ -55,7 +58,7 @@ public class FormChat extends javax.swing.JFrame {
             System.out.println("Client closed connection");
             in.close();
             out.close();
-            stdIn.close();
+//            stdIn.close();
             socket.close();
         } catch (IOException e) {
             System.err.println(e);
@@ -143,18 +146,46 @@ public class FormChat extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNhapActionPerformed
 
     private void btnGuiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuiActionPerformed
-        input = txtNhap.getText();
-        txtArea.append(input + "\r\n");
+        try {
+            input = txtNhap.getText();
+            txtArea.append("Bạn: " + input + "\r\n");
 
-        String weather = "";
-        if (input.equals("chuyendoitien")) {
-            CurrencyConverterForm currency = new CurrencyConverterForm();
-            currency.setVisible(true);
+            if (input.equals("chuyendoitien")) {
+                CurrencyConverterForm currency = new CurrencyConverterForm();
+                currency.setVisible(true);
 
-        } 
+                // nếu bye thì đóng connection
+            } else if (input.equals("bye")) {
+                txtArea.append("bái bai" + "\r\n");
+                out.write(input + "\r\n");
+                out.flush();
+                dongKetNoi();
+            }
+
+            out.write(input + "\r\n");
+            out.flush();
+
+            // server response:
+            txtArea.append(in.readLine() + "\r\n");
+
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
 
     }//GEN-LAST:event_btnGuiActionPerformed
 
+    private void dongKetNoi() {
+        System.out.println("Client closed connection");
+        try {
+            in.close();
+            out.close();
+            socket.close();
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+
+//            stdIn.close();
+    }
     private void btnGuiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnGuiKeyPressed
 //        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 //
@@ -167,12 +198,10 @@ public class FormChat extends javax.swing.JFrame {
 //                currency.setVisible(true);
 
 //            } else {
-
 //          txtArea.append(Simsimi.getResponeFromSimsimi(input) + "\r\n");
-//          weather = thoiTiet.getWeather(input);
+//           weather = thoiTiet.getWeather(input);
 //          txtArea.setText(weather);
 //            }
-
 //        }
 
     }//GEN-LAST:event_btnGuiKeyPressed
@@ -216,30 +245,25 @@ public class FormChat extends javax.swing.JFrame {
             socket = new Socket("localhost", 5100);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            stdIn = new BufferedReader(new InputStreamReader(System.in));
+//            stdIn = new BufferedReader(new InputStreamReader(System.in));
 
             // Client nhận dữ liệu từ keyboard và gửi vào stream -> server
-            
-            while (true) {
-                line = stdIn.readLine();
-                out.write(line);
-                out.newLine();
-                out.flush();
-
-                if (line.equals("bye")) {
-                    break;
-                }
-                // Client nhận phản hồi từ server
-                line = in.readLine();
-                // System.out.println("Client get: " + line);
-                txtArea.append(line + "\r\n");
-            }
-            System.out.println("Client closed connection");
-            in.close();
-            out.close();
-            stdIn.close();
-            socket.close();
-
+//            while (true) {
+//                
+//                
+////                line = stdIn.readLine(); // cái chỗ này nó bắt nhập từ System,
+//                out.write(line);
+//                out.newLine();
+//                out.flush();
+//
+//                if (line.equals("bye")) {
+//                    break;
+//                }
+//                // Client nhận phản hồi từ server
+//                line = in.readLine();
+//                // System.out.println("Client get: " + line);
+//                txtArea.append(line + "\r\n");
+//            }
         } catch (IOException e) {
             System.err.println(e);
         }
