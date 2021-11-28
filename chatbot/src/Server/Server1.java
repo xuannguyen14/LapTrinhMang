@@ -5,7 +5,7 @@
  */
 package Server;
 
-import chatbot.Simsimi;
+import API.Simsimi;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;

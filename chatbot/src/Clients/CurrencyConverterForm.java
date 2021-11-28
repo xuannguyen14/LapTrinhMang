@@ -5,8 +5,8 @@
  */
 package Clients;
 
-import chatbot.currencyConverter;
-import static chatbot.currencyConverter.getListCodeCity;
+import API.currencyConverter;
+import static API.currencyConverter.getListCodeCity;
 import java.util.ArrayList;
 
 /**

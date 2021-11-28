@@ -5,7 +5,7 @@
  */
 package Clients;
 
-import chatbot.Simsimi;
+import API.Simsimi;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 public class FormChat extends javax.swing.JFrame {
 
-    private static Socket socket = null;
+    private static Socket socket = null;    
     private static BufferedReader in = null;
     private static BufferedWriter out = null;
 //    private static BufferedReader stdIn = null;
