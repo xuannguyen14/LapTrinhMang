@@ -7,7 +7,15 @@ package Clients;
 
 import API.currencyConverter;
 import static API.currencyConverter.getListCodeCity;
+import static Clients.FormChat.input;
+import static Clients.FormChat.txtArea;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -17,8 +25,15 @@ public class CurrencyConverterForm extends javax.swing.JFrame {
 
     ArrayList<String> listCity1 = new ArrayList<>();
     ArrayList<String> listCity2 = new ArrayList<>();
-    String selected_1;
-    String selected_2;
+    public static String selected_1;
+    public static String selected_2;
+    public static String luongTien;
+    public static String result;
+
+    private static ServerSocket server = null;
+    private static Socket socket = null;
+    private static BufferedReader in = null;
+    private static BufferedWriter out = null;
 
     public CurrencyConverterForm() {
         initComponents();
@@ -67,6 +82,11 @@ public class CurrencyConverterForm extends javax.swing.JFrame {
         comboboxListCity1.setBounds(110, 70, 510, 50);
 
         txtLuongTien.setText("1");
+        txtLuongTien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtLuongTienActionPerformed(evt);
+            }
+        });
         jPanel1.add(txtLuongTien);
         txtLuongTien.setBounds(110, 280, 510, 40);
 
@@ -107,7 +127,7 @@ public class CurrencyConverterForm extends javax.swing.JFrame {
 
     private void comboboxListCity1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxListCity1ActionPerformed
         selected_1 = (String) comboboxListCity1.getSelectedItem();
-        
+
     }//GEN-LAST:event_comboboxListCity1ActionPerformed
 
     private void comboboxListCity2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboboxListCity2ActionPerformed
@@ -115,10 +135,32 @@ public class CurrencyConverterForm extends javax.swing.JFrame {
         // FormChat.txtArea.append(selected_2);
     }//GEN-LAST:event_comboboxListCity2ActionPerformed
 
+    public static String sendDataToServer(String chuoi1, String chuoi2, String chuoi3) {
+        return chuoi1 + " " + chuoi2 + " " + chuoi3;
+    }
     private void btnChuyenDoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChuyenDoiActionPerformed
-       String result = currencyConverter.convertMoney(selected_1, selected_2, txtLuongTien.getText());
-        FormChat.txtArea.append(result + "\r\n");
+        luongTien = txtLuongTien.getText();
+        result = sendDataToServer(selected_1, selected_2, luongTien);
+
+        try {
+
+            out.write(result + "\r\n");
+            out.flush();
+
+            // server response:
+            txtArea.append(in.readLine() + "\r\n");
+
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+        //  System.out.println(result);
     }//GEN-LAST:event_btnChuyenDoiActionPerformed
+
+    private void txtLuongTienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLuongTienActionPerformed
+        this.btnChuyenDoi.requestFocus();
+        this.btnChuyenDoi.doClick();
+        this.btnChuyenDoi.setText("");
+    }//GEN-LAST:event_txtLuongTienActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,15 +201,15 @@ public class CurrencyConverterForm extends javax.swing.JFrame {
 
         listCity1 = currencyConverter.getListCodeCity();
         listCity2 = currencyConverter.getListCodeCity();
-        
+
         comboboxListCity1.removeAllItems();
         comboboxListCity2.removeAllItems();
-        
+
         for (String item : listCity1) {
             comboboxListCity1.addItem(item);
         }
-        
-        for(String item : listCity2){
+
+        for (String item : listCity2) {
             comboboxListCity2.addItem(item);
         }
     }

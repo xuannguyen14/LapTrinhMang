@@ -153,6 +153,8 @@ public class FormChat extends javax.swing.JFrame {
             if (input.equals("chuyendoitien")) {
                 CurrencyConverterForm currency = new CurrencyConverterForm();
                 currency.setVisible(true);
+                
+                
 
                 // nếu bye thì đóng connection
             } else if (input.equals("bye")) {
