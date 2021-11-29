@@ -30,10 +30,10 @@ public class CurrencyConverterForm extends javax.swing.JFrame {
     public static String luongTien;
     public static String result;
 
-    private static ServerSocket server = null;
-    private static Socket socket = null;
-    private static BufferedReader in = null;
-    private static BufferedWriter out = null;
+//    private static ServerSocket server = null;
+//    private static Socket socket = null;
+//    private static BufferedReader in = null;
+//    private static BufferedWriter out = null;
 
     public CurrencyConverterForm() {
         initComponents();
@@ -140,20 +140,21 @@ public class CurrencyConverterForm extends javax.swing.JFrame {
     }
     private void btnChuyenDoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChuyenDoiActionPerformed
         luongTien = txtLuongTien.getText();
-        result = sendDataToServer(selected_1, selected_2, luongTien);
-
+        result = "currencyConverter" +" "+ sendDataToServer(selected_1, selected_2, luongTien);
+//      
         try {
 
-            out.write(result + "\r\n");
-            out.flush();
+            FormChat.out.write(result + "\r\n");
+            FormChat.out.flush();
 
             // server response:
-            txtArea.append(in.readLine() + "\r\n");
+            FormChat.txtArea.append(FormChat.in.readLine() + "\r\n");
 
         } catch (IOException ex) {
             System.out.println(ex);
         }
-        //  System.out.println(result);
+//          System.out.println(result);
+//          System.out.println(result.contains("chuyendoitien"));
     }//GEN-LAST:event_btnChuyenDoiActionPerformed
 
     private void txtLuongTienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLuongTienActionPerformed

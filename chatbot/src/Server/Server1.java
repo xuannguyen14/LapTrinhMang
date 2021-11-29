@@ -29,9 +29,7 @@ public class Server1 {
     private static ServerSocket server = null;
     private static Socket socket = null;
     private static BufferedReader in = null;
-    private static BufferedReader in2 = null;
     private static BufferedWriter out = null;
-    private static BufferedWriter out2 = null;
 
     public static void main(String[] args) {
         try {
@@ -42,30 +40,30 @@ public class Server1 {
                     socket = server.accept();
                     System.out.println("Client " + socket.getInetAddress().getHostAddress() + ":" + socket.getPort() + " is connected");
                     in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    in2 = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
                     while (true) {
                         String line = in.readLine();
 
-                        if (line.equals("bye")){
+                        if (line.equals("bye")) {
 
                             break;
                         }
                         System.out.println("Server received " + line);
 
                         // chỗ nãy để xử lý chức năng
-                        if (line.equals("chuyendoitien")) {
-                          //  line = in2.readLine();
+                        if (line.contains("currencyConverter")) {
+                            //  line = in2.readLine();
                             System.out.println(line);
                             StringTokenizer st = new StringTokenizer(line, " ");
                             while (st.hasMoreTokens()) {
+                                String syntax = st.nextToken();
                                 String chuoi1 = st.nextToken();
                                 String chuoi2 = st.nextToken();
                                 String chuoi3 = st.nextToken();
-                               line = currencyConverter.convertMoney(chuoi1, chuoi2, chuoi3);
+                                line = currencyConverter.convertMoney(chuoi1, chuoi2, chuoi3);
                             }
-                            
+
                         } else {
                             line = Simsimi.getResponeFromSimsimi(line);
                         }

@@ -19,9 +19,9 @@ import java.util.logging.Logger;
 
 public class FormChat extends javax.swing.JFrame {
 
-    private static Socket socket = null;    
-    private static BufferedReader in = null;
-    private static BufferedWriter out = null;
+    private static Socket socket = null;
+    public static BufferedReader in = null;
+    public static BufferedWriter out = null;
 //    private static BufferedReader stdIn = null;
     public static String line;
     public static String input;
@@ -150,10 +150,9 @@ public class FormChat extends javax.swing.JFrame {
             input = txtNhap.getText();
             txtArea.append("Bạn: " + input + "\r\n");
 
-            if (input.equals("chuyendoitien")) {
+            if (input.equals("chuyentien")) {
                 CurrencyConverterForm currency = new CurrencyConverterForm();
                 currency.setVisible(true);
-                
                 
 
                 // nếu bye thì đóng connection
@@ -162,11 +161,12 @@ public class FormChat extends javax.swing.JFrame {
                 out.write(input + "\r\n");
                 out.flush();
                 dongKetNoi();
-            }
-
-            out.write(input + "\r\n");
-            out.flush();
-
+            } 
+            
+                out.write(input + "\r\n");
+                out.flush();
+          
+            
             // server response:
             txtArea.append(in.readLine() + "\r\n");
 
