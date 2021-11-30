@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +27,7 @@ public class FormChat extends javax.swing.JFrame {
 //    private static BufferedReader stdIn = null;
     public static String line;
     public static String input;
+    public static String serverResponse;
 
     public FormChat() {
         initComponents();
@@ -153,7 +156,6 @@ public class FormChat extends javax.swing.JFrame {
             if (input.equals("chuyentien")) {
                 CurrencyConverterForm currency = new CurrencyConverterForm();
                 currency.setVisible(true);
-                
 
                 // nếu bye thì đóng connection
             } else if (input.equals("bye")) {
@@ -161,14 +163,23 @@ public class FormChat extends javax.swing.JFrame {
                 out.write(input + "\r\n");
                 out.flush();
                 dongKetNoi();
-            } 
-            
-                out.write(input + "\r\n");
-                out.flush();
-          
-            
+            }
+
+            out.write(input + "\r\n");
+            out.flush();
+
             // server response:
-            txtArea.append(in.readLine() + "\r\n");
+            serverResponse = in.readLine() + "\r\n";
+            // nếu response có chứa chuỗi "\t" thì sẽ thực hiện tách các tokens thành từng dòng in ra cho đẹp :>
+            if (serverResponse.contains("\t")) {
+                StringTokenizer st = new StringTokenizer(serverResponse, "\t");
+                while (st.hasMoreTokens()) {
+                    txtArea.append(st.nextToken() + "\r\n");
+                }
+                // gán chuỗi bằng rỗng để không in ra thêm lần nữa
+                serverResponse = "";
+            }
+            txtArea.append(serverResponse);
 
         } catch (IOException ex) {
             System.out.println(ex);

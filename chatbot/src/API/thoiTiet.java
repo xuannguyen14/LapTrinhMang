@@ -78,7 +78,7 @@ public class thoiTiet {
                 scanner.close();
 
                 String info = informationString.toString();
-                System.out.println(info);
+               // System.out.println(info);
                 // đọc các phần tử trong mảng
                 JSONArray jsonarray = new JSONArray(info);
                 for (int i = 0; i < jsonarray.length(); i++) {
@@ -114,10 +114,11 @@ public class thoiTiet {
             Elements info = doc.getElementsByClass("col-lg-2 col-md-2 col-sm-2 col-xs-4 ");
             Elements info2 = doc.getElementsByClass("col-lg-2 col-md-2 col-sm-2 col-xs-4  tomorrow");
             
-            line += info2.get(0).text()+"\n";
+            line += info2.get(0).text()+"\t";
             for(int i=0; i <info.size(); i++){
                // System.out.println(info.get(i).text());
-                line += info.get(i).text()+ "\n";
+               // line += info.get(i).text()+ "\n";
+                line += info.get(i).text() + "\t";
             }
                
 
@@ -129,6 +130,6 @@ public class thoiTiet {
     }
 
     public static void main(String[] args) {
-        System.out.println(getWeather("london"));
+        System.out.println(getWeather("ho+chi+minh"));
     }
 }
